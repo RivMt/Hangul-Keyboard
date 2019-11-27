@@ -105,8 +105,7 @@ public class MyInputMethodService extends InputMethodService implements Keyboard
                 //Change Language
                 InputMethodManager imm =(InputMethodManager) getSystemService((Context.INPUT_METHOD_SERVICE));
                 boolean ttt;
-                imm.showInputMethodPicker();
-                /*if (android.os.Build.VERSION.SDK_INT < 28) {
+                if (android.os.Build.VERSION.SDK_INT < 28) {
                     ttt=imm.switchToNextInputMethod(keyboardView.getWindowToken(), false);
                     Log.i("Sys","Change Keyboard (SDK Lower than 28)");
                 } else {
@@ -114,9 +113,12 @@ public class MyInputMethodService extends InputMethodService implements Keyboard
                     Log.i("Sys","Change Keyboard (SDK Bigger than 28)");
                     if (!ttt) {
                         Log.i("Sys","Changed to Previous Keyboard");
-                        switchToPreviousInputMethod();
+                        ttt=switchToPreviousInputMethod();
                     }
-                }*/
+                    if (!ttt) {
+                        imm.showInputMethodPicker();
+                    }
+                }
                 break;
             default:
                 if (mIME.checkCode(i)) {

@@ -9,4 +9,9 @@
     <color name="keyboardPressed">#4D6D8D</color>
     <color name="keyboardText">#FFFFFF</color>
     <color name="keyboardPreview">#009688</color>
+
+    <!--Icon-->
+    <color name="iconHeadBackground">#FF5722</color>
+    <color name="iconKeyboardKey">#80DEEA</color>
+    <color name="iconKeyboardBackground">#00BCD4</color>
 </resources>
