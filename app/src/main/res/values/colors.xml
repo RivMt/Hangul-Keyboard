@@ -12,6 +12,6 @@
 
     <!--Icon-->
     <color name="iconHeadBackground">#FF5722</color>
-    <color name="iconKeyboardKey">#80DEEA</color>
+    <color name="iconKeyboardKey">#E0F7FA</color>
     <color name="iconKeyboardBackground">#00BCD4</color>
 </resources>

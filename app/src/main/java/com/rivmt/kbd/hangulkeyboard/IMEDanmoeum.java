@@ -34,39 +34,44 @@ public class IMEDanmoeum extends IMEMaster {
                     //mInfo.mDeleteLetters=1;
                     mLetters[mLetterCursor]=inputCode;
                     mInfo.deleteOneLetter();
-                    mInfo.mCreateLetters.append((char) createHangul());
+                    inputLetter((char) createHangul());
                     mLetterCursor++;
                 } else {
                     Log.i("Hangul", "Cursor Pos is not Jungseong");
                     //Log.i("Hangul", "Input Single Letter: " + (char) inputCode);
                     mInfo.deleteOneLetter();
                     int aaa=mLetters[2];
+                    int[] bbb=detachBachim(aaa);
                     mLetters[2]=0;
-                    mInfo.mCreateLetters.append((char) createHangul());
+                    if (bbb[0]==1) {
+                        mLetters[2] = bbb[1];
+                        aaa=bbb[2];
+                    }
+                    inputLetter((char) createHangul());
                     resetLetter();
                     mLetters[0]=aaa;
                     mLetters[1]=inputCode;
                     mLetterCursor=2;
-                    mInfo.mCreateLetters.append((char) createHangul());
+                    inputLetter((char) createHangul());
                 }
             } else {
                 Log.i("Hangul", "Input is Jaeum");
                 if (mLetterCursor == 0) {
                     resetLetter();
                     mLetters[0]=inputCode;
-                    mInfo.mCreateLetters.append((char) createHangul());
+                    inputLetter((char) createHangul());
                     mLetterCursor++;
                 } else if (mLetterCursor == 1) {
                     Log.i("Hangul", "Cursor Pos is Jungseong");
                     resetLetter();
                     mLetters[1]=inputCode;
-                    mInfo.mCreateLetters.append((char) createHangul());
+                    inputLetter((char) createHangul());
                     mLetterCursor=2;
                 } else  {
                     Log.i("Hangul","Cursor pos is jongseong");
                     mLetters[mLetterCursor]=inputCode;
                     mInfo.deleteOneLetter();
-                    mInfo.mCreateLetters.append((char) createHangul());
+                    inputLetter((char) createHangul());
                     //resetLetter();
                 }
 
@@ -85,31 +90,36 @@ public class IMEDanmoeum extends IMEMaster {
                         mLetterCursor=1;
                         mLetters[mLetterCursor]=t[1];
                         mInfo.deleteOneLetter();
-                        mInfo.mCreateLetters.append((char) createHangul());
+                        inputLetter((char) createHangul());
                         mLetterCursor=2;
                     } else {//Cannot Merge
                         Log.i("Hangul", "Letter cannot merged");
                         resetLetter();
                         Log.i("Hangul", "Input single Letter: " + (char) inputCode);
-                        mInfo.mCreateLetters.append((char) inputCode);
+                        inputLetter((char) inputCode);
                     }
                 } else if (preCursor == 0) {
                     Log.i("Hangul", "Pre-cursor pos is choseong");
                     mLetters[1]=inputCode;
                     mInfo.deleteOneLetter();
-                    mInfo.mCreateLetters.append((char) createHangul());
+                    inputLetter((char) createHangul());
                     mLetterCursor++;
                 } else if (preCursor == 2) {
                     Log.i("Hangul", "Pre-cursor pos is jongseong");
                     mInfo.deleteOneLetter();
                     int aaa = mLetters[2];
+                    int[] bbb = detachBachim(aaa);
                     mLetters[2]=0;
-                    mInfo.mCreateLetters.append((char) createHangul());
+                    if (bbb[0] ==1) {
+                        mLetters[2]=bbb[1];
+                        aaa=bbb[2];
+                    }
+                    inputLetter((char) createHangul());
                     resetLetter();
                     mLetters[0] = aaa;
                     Log.i("Hangul","Immigrated: "+aaa);
                     mLetters[1]=inputCode;
-                    mInfo.mCreateLetters.append((char) createHangul());
+                    inputLetter((char) createHangul());
                     mLetterCursor=2;
                     Log.i("Hangul", "Move jongseong to choseong and insert moeum: " + (char) inputCode);
 
@@ -120,7 +130,7 @@ public class IMEDanmoeum extends IMEMaster {
                     Log.i("Hangul", "Pre-cursor pos is jungseong");
                     mLetters[2]=inputCode;
                     mInfo.deleteOneLetter();
-                    mInfo.mCreateLetters.append((char) createHangul());
+                    inputLetter((char) createHangul());
                     mLetterCursor=0;
                 } else if (preCursor == 0) {
                     Log.i("Hangul", "Pre-cursor pos is choseong");
@@ -129,13 +139,13 @@ public class IMEDanmoeum extends IMEMaster {
                         Log.i("Hangul", "Letter Merged and fit to pos");
                         mLetters[0]=t[1];
                         mInfo.deleteOneLetter();
-                        mInfo.mCreateLetters.append((char) createHangul());
+                        inputLetter((char) createHangul());
                         mLetterCursor=1;
                     } else {//Cannot Merge
                         Log.i("Hangul", "Letter cannot merged");
                         resetLetter();
                         mLetters[0]=inputCode;
-                        mInfo.mCreateLetters.append((char) createHangul());
+                        inputLetter((char) createHangul());
                     }
                 } else if (preCursor == 2) {
                     Log.i("Hangul", "Pre-cursor pos is jongseong");
@@ -144,13 +154,13 @@ public class IMEDanmoeum extends IMEMaster {
                         Log.i("Hangul", "Letter merged and fit to pos");
                         mLetters[2]=t[1];
                         mInfo.deleteOneLetter();
-                        mInfo.mCreateLetters.append((char) createHangul());
-                        resetLetter();
+                        inputLetter((char) createHangul());
+                        //resetLetter();
                     } else {//Cannot Merge
                         Log.i("Hangul", "Letter cannot merged");
                         resetLetter();
                         mLetters[0]=inputCode;
-                        mInfo.mCreateLetters.append((char) createHangul());
+                        inputLetter((char) createHangul());
                         mLetterCursor=1;
 
                     }
@@ -160,7 +170,9 @@ public class IMEDanmoeum extends IMEMaster {
     }
 
     private void inputLetter(int i) {
-        mInfo.mCreateLetters.append((char) i);
+        if (i != 0) {
+            mInfo.mCreateLetters.append((char) i);
+        }
     }
 
     private int[] mergeJaeum(int a, int b) {
@@ -258,6 +270,83 @@ public class IMEDanmoeum extends IMEMaster {
         Log.i("Hangul","Type "+i[0]+" Text: "+(char) i[1] );
         return i;
     }
+    private int[] detachBachim(int a) {
+        int [] i={0,0,0};
+        switch(a) {
+            case 12594://ㄲ
+                i[0]=1;
+                i[1]=12593;
+                i[2]=12593;
+                break;
+            case 12595://ㄳ
+                i[0]=1;
+                i[1]=12593;
+                i[2]=12613;
+                break;
+            case 12597://ㄵ
+                i[0]=1;
+                i[1]=12596;
+                i[2]=12616;
+                break;
+            case 12598://ㄶ
+                i[0]=1;
+                i[1]=12596;
+                i[2]=12622;
+                break;
+            case 12602://ㄺ
+                i[0]=1;
+                i[1]=12601;
+                i[2]=12593;
+                break;
+            case 12603://ㄻ
+                i[0]=1;
+                i[1]=12601;
+                i[2]=12609;
+                break;
+            case 12604://ㄼ
+                i[0]=1;
+                i[1]=12601;
+                i[2]=12610;
+                break;
+            case 12605://ㄽ
+                i[0]=1;
+                i[1]=12601;
+                i[2]=12613;
+                break;
+            case 12606://ㄾ
+                i[0]=1;
+                i[1]=12601;
+                i[2]=12620;
+                break;
+            case 12607://ㄿ
+                i[0]=1;
+                i[1]=12601;
+                i[2]=12621;
+                break;
+            case 12608://ㅀ
+                i[0]=1;
+                i[1]=12601;
+                i[2]=12622;
+                break;
+            case 12611://ㅃ
+                i[0]=1;
+                i[1]=12610;
+                i[2]=12610;
+                break;
+            case 12612://ㅄ
+                i[0]=1;
+                i[1]=12610;
+                i[2]=12613;
+                break;
+            case 12614://ㅆ
+                i[0]=1;
+                i[1]=12613;
+                i[2]=12613;
+                break;
+        }
+        Log.i("Hangul","Detach Bachim "+(char) a+" to ["+(char) i[1]+","+(char) i[2]+"]");
+        return i;
+    }
     private int[] mergeMoeum(int a, int b) {
         Log.i("Hangul","Merge Moeum ["+a+","+b+"]");
         int [] i={0,0};
@@ -267,6 +356,18 @@ public class IMEDanmoeum extends IMEMaster {
                 if (b == 12623) {
                     i[0]=4;
                     i[1]=12625;
+                }
+                break;
+            case 12624://ㅐ
+                if (b == 12624) {
+                    i[0]=4;
+                    i[1]=12626;
+                }
+                break;
+            case 12628://ㅔ
+                if (b==12628) {
+                    i[0]=4;
+                    i[1]=12630;
                 }
                 break;
             case 12627://ㅓ
@@ -505,7 +606,7 @@ public class IMEDanmoeum extends IMEMaster {
         int a=44032+getChoseongCode(mLetters[0])*21*28+(mLetters[1]-12623)*28+ getJongseongCode(mLetters[2]);
         if (mLetters[0]==-1) {
             Log.i("Hangul","Invalid Type");
-            return 48;
+            return 0;
         }
         if (mLetters[1]==0) {
             return mLetters[0];

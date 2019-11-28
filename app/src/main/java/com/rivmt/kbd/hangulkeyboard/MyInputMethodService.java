@@ -33,19 +33,32 @@ public class MyInputMethodService extends InputMethodService implements Keyboard
         //Candidate
         this.setCandidatesViewShown(true);
 
+        //Set IME
+        mIME = new IMEDanmoeum();
+
         //Keyboard View
         keyboardView = (KeyboardView) getLayoutInflater().inflate(R.layout.keyboard_view, null);
         EditorInfo ei = getCurrentInputEditorInfo();
-        //ei.
-        setKeyboardLayout(R.xml.layout_danmoeum);
+        setKeyboardLayout(selectKeyboardLayout(ei.inputType));
         keyboardView.setOnKeyboardActionListener(this);
         return keyboardView;
     }
 
-    private int selectKeyboardLayout() {
-
-
-        return 0;
+    private int selectKeyboardLayout(int t) {
+        switch(t) {
+            case EditorInfo.TYPE_CLASS_NUMBER:
+            case EditorInfo.TYPE_CLASS_DATETIME:
+            case EditorInfo.TYPE_NUMBER_FLAG_DECIMAL:
+            case EditorInfo.TYPE_NUMBER_FLAG_SIGNED:
+            case EditorInfo.TYPE_DATETIME_VARIATION_DATE:
+            case EditorInfo.TYPE_DATETIME_VARIATION_NORMAL:
+            case EditorInfo.TYPE_DATETIME_VARIATION_TIME:
+                Log.i("Sys","Set Keyboard Layout to Number");
+                return R.xml.layout_number;
+            default:
+                Log.i("Sys","Set Keyboard Layout to danmoeum");
+                return R.xml.layout_danmoeum;
+        }
     }
 
     private void setKeyboardLayout(int layout) {
