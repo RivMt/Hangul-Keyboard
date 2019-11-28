@@ -18,6 +18,11 @@ public class IMEDanmoeum extends IMEMaster {
     }
 
     @Override
+    public void resetIME() {
+        resetLetter();
+    }
+
+    @Override
     public boolean checkCode(int i) {
         return (i >= 12593 && i <= 12643);
     }
@@ -84,19 +89,24 @@ public class IMEDanmoeum extends IMEMaster {
                 Log.i("Hangul", "Input is Moeum");
                 if (preCursor == 1) {
                     Log.i("Hangul", "Pre-Cursor Pos is Jungseong");
-                    t = mergeMoeum(mLetters[preCursor], inputCode);
-                    if (t[0] == 4) {//Merged
-                        Log.i("Hangul", "Letter Merged and fit to pos");
-                        mLetterCursor=1;
-                        mLetters[mLetterCursor]=t[1];
-                        mInfo.deleteOneLetter();
-                        inputLetter((char) createHangul());
-                        mLetterCursor=2;
-                    } else {//Cannot Merge
-                        Log.i("Hangul", "Letter cannot merged");
-                        resetLetter();
-                        Log.i("Hangul", "Input single Letter: " + (char) inputCode);
-                        inputLetter((char) inputCode);
+                    if (mLetters[2]==0) {
+                        Log.i("Hangul","No Bachim");
+                        t = mergeMoeum(mLetters[preCursor], inputCode);
+                        if (t[0] == 4) {//Merged
+                            Log.i("Hangul", "Letter Merged and fit to pos");
+                            mLetterCursor = 1;
+                            mLetters[mLetterCursor] = t[1];
+                            mInfo.deleteOneLetter();
+                            inputLetter((char) createHangul());
+                            mLetterCursor = 2;
+                        } else {//Cannot Merge
+                            Log.i("Hangul", "Letter cannot merged");
+                            resetLetter();
+                            Log.i("Hangul", "Input single Letter: " + (char) inputCode);
+                            inputLetter((char) inputCode);
+                        }
+                    } else {
+
                     }
                 } else if (preCursor == 0) {
                     Log.i("Hangul", "Pre-cursor pos is choseong");

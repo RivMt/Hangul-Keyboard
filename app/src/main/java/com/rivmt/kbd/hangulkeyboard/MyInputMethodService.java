@@ -1,6 +1,9 @@
 package com.rivmt.kbd.hangulkeyboard;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
@@ -13,6 +16,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
 
+import java.util.List;
 import java.util.regex.Pattern;
 
 public class MyInputMethodService extends InputMethodService implements KeyboardView.OnKeyboardActionListener {
@@ -41,6 +45,27 @@ public class MyInputMethodService extends InputMethodService implements Keyboard
         EditorInfo ei = getCurrentInputEditorInfo();
         setKeyboardLayout(selectKeyboardLayout(ei.inputType));
         keyboardView.setOnKeyboardActionListener(this);
+
+        //Change Key Color
+        Keyboard currentKeyboard = keyboardView.getKeyboard();
+        List<Keyboard.Key> keys = currentKeyboard.getKeys();
+        keyboardView.invalidateAllKeys();
+
+        for(int i = 0; i < keys.size() - 1; i++ )
+        {
+            Keyboard.Key currentKey = keys.get(i);
+
+            //If your Key contains more than one code, then you will have to check if the codes array contains the primary code
+            if(currentKey.codes[0] == -5 || currentKey.codes[0] == -4 || currentKey.codes[0] == -3)
+            {
+                //currentKey.label = null;
+                Drawable d = currentKey.icon;
+                d.setColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.SRC_IN);
+                Log.i("Sys","Key [" +i+"] Icon Color Change "+currentKey.codes[0]);
+                currentKey.icon = d;
+            }
+        }
+
         return keyboardView;
     }
 
@@ -90,7 +115,10 @@ public class MyInputMethodService extends InputMethodService implements Keyboard
     }
 
     public boolean checkPreview(int i) {
-        return (i >= 12593 && i <= 12643);
+        if (i < 0 || i == 32) {
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -176,6 +204,7 @@ public class MyInputMethodService extends InputMethodService implements Keyboard
         InputConnection inputConnection = getCurrentInputConnection();
         inputConnection.commitText(mCandidateString.toString(), 1);
         mIME.mInfo.mCreateLetters=new StringBuilder();
+        mIME.resetIME();
         refreshCandidate();
     }
 

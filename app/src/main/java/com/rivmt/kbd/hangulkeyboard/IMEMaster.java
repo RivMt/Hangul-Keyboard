@@ -10,4 +10,6 @@ public abstract class IMEMaster {
     public abstract void createLetter(int i, boolean cont);
 
     public abstract void deleteOrder();
+
+    public abstract void resetIME();
 }
