@@ -23,7 +23,7 @@ public class DictMainActivity extends AppCompatActivity {
         btnAdd.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DBHelper.insertWord(boxWord.toString(), boxInput.toString(), "a");
+                DBHelper.insertWord(boxWord.getText().toString(), boxInput.getText().toString(), "a");
             }
         });
     }

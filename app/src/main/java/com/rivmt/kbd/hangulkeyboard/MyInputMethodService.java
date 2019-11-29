@@ -1,6 +1,7 @@
 package com.rivmt.kbd.hangulkeyboard;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -11,10 +12,13 @@ import android.media.AudioManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.util.List;
 import java.util.regex.Pattern;
@@ -27,6 +31,9 @@ public class MyInputMethodService extends InputMethodService implements Keyboard
     private KeyTimer mKeyTimer = new KeyTimer(500, 100);
     private StringBuilder mCandidateString = new StringBuilder();
     private IMEMaster mIME = new IMEDanmoeum();
+
+    private TextView[] mCandText;
+    private DictionaryDBHelper mCandDBHelper;
 
 
     @Override
@@ -46,6 +53,31 @@ public class MyInputMethodService extends InputMethodService implements Keyboard
         setKeyboardLayout(selectKeyboardLayout(ei.inputType));
         keyboardView.setOnKeyboardActionListener(this);
 
+        //Keyboard Theme
+        setKeyboardTheme();
+
+        return keyboardView;
+    }
+
+    @Override
+    public View onCreateCandidatesView() {
+        LayoutInflater li = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View wordBar = li.inflate(R.layout.keyboard_candidate_three, null);
+        LinearLayout ll = (LinearLayout) wordBar.findViewById(R.id.keyboard_candidate);
+        mCandText = new TextView[]{
+                wordBar.findViewById(R.id.txt_candidate_center),
+                wordBar.findViewById(R.id.txt_candidate_left),
+                wordBar.findViewById(R.id.txt_candidate_right),
+        };
+        setCandidatesViewShown(true);
+        setCandidatesView(wordBar);
+
+        mCandDBHelper = new DictionaryDBHelper(this, Constants.DICT_DB_ALL, null, 1);
+
+        return wordBar;
+    }
+
+    private void setKeyboardTheme() {
         //Change Key Color
         Keyboard currentKeyboard = keyboardView.getKeyboard();
         List<Keyboard.Key> keys = currentKeyboard.getKeys();
@@ -65,8 +97,6 @@ public class MyInputMethodService extends InputMethodService implements Keyboard
                 currentKey.icon = d;
             }
         }
-
-        return keyboardView;
     }
 
     private int selectKeyboardLayout(int t) {
@@ -214,6 +244,15 @@ public class MyInputMethodService extends InputMethodService implements Keyboard
         InputConnection inputConnection = getCurrentInputConnection();
         inputConnection.setComposingText(mCandidateString,1);
         Log.i("Cand","Candidate: "+mCandidateString);
+
+        List<CandidateInfo> l = mCandDBHelper.searchWord(mCandidateString.toString());
+        int m = l.size()-1;
+        if (m > 2) {
+            m=2;
+        }
+        for(int i=0; i < m; i++) {
+            mCandText[i].setText(l.get(i).getWord());
+        }
     }
 
     public static StringBuilder replaceAll(StringBuilder sb, String find, String replace){

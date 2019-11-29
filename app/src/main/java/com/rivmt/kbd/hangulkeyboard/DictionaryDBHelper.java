@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class DictionaryDBHelper extends SQLiteOpenHelper {
 
@@ -20,7 +21,7 @@ public class DictionaryDBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         // 새로운 테이블 생성
-        /* 이름은 WRONGS이고, 자동으로 값이 증가하는 _id 정수형 기본키 컬럼과
+        /* 이름은 DICT 이고, 자동으로 값이 증가하는 _id 정수형 기본키 컬럼과
         item 문자열 컬럼, price 정수형 컬럼, create_at 문자열 컬럼으로 구성된 테이블을 생성. */
         db.execSQL("CREATE TABLE IF NOT EXISTS DICT (_id INTEGER PRIMARY KEY AUTOINCREMENT, word TEXT, input TEXT, lang TEXT, count INTEGER);");
     }
@@ -35,7 +36,7 @@ public class DictionaryDBHelper extends SQLiteOpenHelper {
         // 읽고 쓰기가 가능하게 DB 열기
         SQLiteDatabase db = getWritableDatabase();
         // DB에 입력한 값으로 행 추가
-        db.execSQL("INSERT INTO DICT VALUES(null, '" + word + "', '" + input + "', '"+ lang+"');");
+        db.execSQL("INSERT INTO DICT VALUES(null, '" + word + "', '" + input + "', '"+ lang+"', 0);");
         db.close();
         Log.i(TAG,"Add Word '"+word+"'"+" ["+input+", "+lang+"]");
     }
@@ -48,23 +49,24 @@ public class DictionaryDBHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public String[] searchWord(String input, String lang) {
+    public List<CandidateInfo> searchWord(String input) {
         SQLiteDatabase db = getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM DICT WHERE input LIKE '%"+input+"%'",null);
-        ArrayList<String> list = new ArrayList<>();
-        String dat;
+        Cursor cursor = db.rawQuery("SELECT * FROM DICT WHERE input LIKE '%"+input+"%' ORDER BY count DESC",null);
+        ArrayList<CandidateInfo> list = new ArrayList<>();
+        CandidateInfo c = new CandidateInfo();
         while(cursor.moveToNext()) {
             Log.i(TAG,"DICT word Load: "+cursor.getString(1));
             if (!cursor.getString(1).equals("NULL")) {
-                dat = cursor.getString(2);
-                list.add(dat);
+                c.setWord(cursor.getString(2));
+                c.setCount(cursor.getInt(4));
+                list.add(c);
             }
         }
 
         db.close();
         cursor.close();
 
-        return list.toArray(new String[list.size()]);
+        return list;
     }
 
 }
