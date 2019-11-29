@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="menu_main_dictionary">사전</string>
+    <string name="menu_main_language">언어</string>
+    <string name="menu_main_theme">테마</string>
+    <string name="dict_add_input_same_as_word">단어와 동일하게</string>
+    <string name="dict_add_word_input">입력</string>
+    <string name="dict_add_word_name">단어</string>
+    <string name="dict_add_button">단어 추가</string>
+    <string name="menu_main_developer">개발자 옵션</string>
+</resources>

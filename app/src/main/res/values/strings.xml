@@ -1,3 +1,15 @@
 <resources>
-    <string name="app_name">개방형 단모음 키보드</string>
+    <string name="app_name" translatable="false">DBoard</string>
+
+    <!-- Main Menu -->
+    <string name="menu_main_language">Language</string>
+    <string name="menu_main_theme">Theme</string>
+    <string name="menu_main_dictionary">Dictionary</string>
+    <string name="menu_main_developer">Developer Option</string>
+
+    <!-- Dictionary Word Add-->
+    <string name="dict_add_word_name">Word</string>
+    <string name="dict_add_word_input">Input</string>
+    <string name="dict_add_input_same_as_word">Same as word</string>
+    <string name="dict_add_button">Add Word</string>
 </resources>

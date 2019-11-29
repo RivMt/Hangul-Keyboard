@@ -11,21 +11,27 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name="com.rivmt.kbd.hangulkeyboard.MainActivity">
+        <activity android:name=".DictMainActivity"/>
+        <activity android:name=".MainSettingActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".MainActivity">
+        </activity>
 
         <service
-            android:name="com.rivmt.kbd.hangulkeyboard.MyInputMethodService"
-            android:label="개방형 단모음 키보드"
+            android:name=".MyInputMethodService"
+            android:label="@string/app_name"
             android:permission="android.permission.BIND_INPUT_METHOD">
-            <meta-data android:name="android.view.im" android:resource="@xml/method"/>
+            <meta-data
+                android:name="android.view.im"
+                android:resource="@xml/method" />
+
             <intent-filter>
-                <action android:name="android.view.InputMethod"/>
+                <action android:name="android.view.InputMethod" />
             </intent-filter>
         </service>
     </application>
