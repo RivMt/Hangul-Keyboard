@@ -9,6 +9,7 @@ import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.media.AudioManager;
+import android.support.constraint.ConstraintLayout;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -46,6 +47,7 @@ public class MyInputMethodService extends InputMethodService implements Keyboard
 
         //Set IME
         mIME = new IMEDanmoeum();
+        mIME.resetIME();
 
         //Keyboard View
         keyboardView = (KeyboardView) getLayoutInflater().inflate(R.layout.keyboard_view, null);
@@ -63,7 +65,7 @@ public class MyInputMethodService extends InputMethodService implements Keyboard
     public View onCreateCandidatesView() {
         LayoutInflater li = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View wordBar = li.inflate(R.layout.keyboard_candidate_three, null);
-        LinearLayout ll = (LinearLayout) wordBar.findViewById(R.id.keyboard_candidate);
+        ConstraintLayout ll = wordBar.findViewById(R.id.keyboard_candidate);
         mCandText = new TextView[]{
                 wordBar.findViewById(R.id.txt_candidate_center),
                 wordBar.findViewById(R.id.txt_candidate_left),
@@ -77,12 +79,16 @@ public class MyInputMethodService extends InputMethodService implements Keyboard
         return wordBar;
     }
 
+    @Override
+    public void onFinishInput() {
+        completeCandidate();
+    }
+
     private void setKeyboardTheme() {
         //Change Key Color
         Keyboard currentKeyboard = keyboardView.getKeyboard();
         List<Keyboard.Key> keys = currentKeyboard.getKeys();
         keyboardView.invalidateAllKeys();
-
         for(int i = 0; i < keys.size() - 1; i++ )
         {
             Keyboard.Key currentKey = keys.get(i);
@@ -120,13 +126,6 @@ public class MyInputMethodService extends InputMethodService implements Keyboard
         keyboard = new Keyboard(this, layout);
         keyboardView.setKeyboard(keyboard);
     }
-
-    /*
-    @Override
-    public View onCreateCandidatesView() {
-        return
-    }
-    */
 
     @Override
     public void onPress(int primaryCode) {
@@ -245,13 +244,20 @@ public class MyInputMethodService extends InputMethodService implements Keyboard
         inputConnection.setComposingText(mCandidateString,1);
         Log.i("Cand","Candidate: "+mCandidateString);
 
-        List<CandidateInfo> l = mCandDBHelper.searchWord(mCandidateString.toString());
-        int m = l.size()-1;
-        if (m > 2) {
-            m=2;
+        //Candidate View
+        if (mCandidateString.toString().equals("")) {
+            resetCandidateText();
+            //When CandidateString is empty, clear all
         }
+        List<CandidateInfo> l = mCandDBHelper.searchWord(mCandidateString.toString());
+        int m = l.size();
+        if (m > mCandText.length) {
+            m=mCandText.length;
+        }
+        Log.i("Cand","Candidate DB Dynamics [Size: "+l.size()+"], [For Statement Maximum: "+m+"]");
         for(int i=0; i < m; i++) {
             mCandText[i].setText(l.get(i).getWord());
+            Log.i("Cand","Candidate Found["+i+"]: "+l.get(i).getWord());
         }
     }
 
@@ -352,5 +358,11 @@ public class MyInputMethodService extends InputMethodService implements Keyboard
     @Override
     public void swipeUp() {
 
+    }
+
+    private void resetCandidateText() {
+        for (int i = 0; i < mCandText.length; i++) {
+            mCandText[i].setText("");
+        }
     }
 }

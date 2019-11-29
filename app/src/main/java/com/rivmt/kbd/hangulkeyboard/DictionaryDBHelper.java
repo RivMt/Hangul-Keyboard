@@ -50,17 +50,20 @@ public class DictionaryDBHelper extends SQLiteOpenHelper {
     }
 
     public List<CandidateInfo> searchWord(String input) {
+        Log.i(TAG, "Input Word: "+input);
+        ArrayList<CandidateInfo> list = new ArrayList<>();
+        if (input.equals("")) {
+            return list;
+            //When the keyword is empty, return empty list
+        }
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM DICT WHERE input LIKE '%"+input+"%' ORDER BY count DESC",null);
-        ArrayList<CandidateInfo> list = new ArrayList<>();
         CandidateInfo c = new CandidateInfo();
         while(cursor.moveToNext()) {
             Log.i(TAG,"DICT word Load: "+cursor.getString(1));
-            if (!cursor.getString(1).equals("NULL")) {
-                c.setWord(cursor.getString(2));
-                c.setCount(cursor.getInt(4));
-                list.add(c);
-            }
+            c.setWord(cursor.getString(1));
+            c.setCount(cursor.getInt(4));
+            list.add(c);
         }
 
         db.close();

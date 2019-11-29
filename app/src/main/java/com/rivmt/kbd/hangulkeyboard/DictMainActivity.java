@@ -24,6 +24,8 @@ public class DictMainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 DBHelper.insertWord(boxWord.getText().toString(), boxInput.getText().toString(), "a");
+                boxInput.setText("");
+                boxWord.setText("");
             }
         });
     }
