@@ -1,4 +1,4 @@
-package com.rivmt.kbd.hangulkeyboard;
+package com.rivmt.kbd.hangulkeyboard.activity;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -6,6 +6,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.rivmt.kbd.hangulkeyboard.Constants;
+import com.rivmt.kbd.hangulkeyboard.keyboard.DictionaryDBHelper;
+import com.rivmt.kbd.hangulkeyboard.R;
 
 public class DictMainActivity extends AppCompatActivity {
 

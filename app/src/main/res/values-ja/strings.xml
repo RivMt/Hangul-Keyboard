@@ -1,2 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="app_name">韓国語キーボード</string>
+    <string name="dict_add_button">単語登録</string>
+    <string name="dict_add_input_same_as_word">単語と同じ</string>
+    <string name="dict_add_word_input">入力</string>
+    <string name="dict_add_word_name">単語</string>
+    <string name="menu_main_developer">開発者オプション</string>
+    <string name="menu_main_language">言語</string>
+    <string name="menu_main_theme">テーマ</string>
+    <string name="splash_button_activate_keyboard">キーボード活性化</string>
+    <string name="splash_button_select_keyboard">キーボード選択</string>
+    <string name="splash_toast_enable_keyboard">韓国語キーボードをチェックしてください</string>
+    <string name="menu_main_dictionary">辞典</string>
+</resources>

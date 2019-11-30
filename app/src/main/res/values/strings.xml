@@ -1,11 +1,16 @@
 <resources>
-    <string name="app_name" translatable="false">DBoard</string>
+    <string name="app_name">Korean Keyboard</string>
 
     <!-- Main Menu -->
     <string name="menu_main_language">Language</string>
     <string name="menu_main_theme">Theme</string>
     <string name="menu_main_dictionary">Dictionary</string>
     <string name="menu_main_developer">Developer Option</string>
+
+    <!-- Splash Screen -->
+    <string name="splash_button_activate_keyboard">Enable Keyboard</string>
+    <string name="splash_button_select_keyboard">Select Keyboard</string>
+    <string name="splash_toast_enable_keyboard">Please check Korean Keyboard App</string>
 
     <!-- Dictionary Word Add-->
     <string name="dict_add_word_name">Word</string>

@@ -1,4 +1,4 @@
-package com.rivmt.kbd.hangulkeyboard;
+package com.rivmt.kbd.hangulkeyboard.activity;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;

@@ -8,4 +8,8 @@
     <string name="dict_add_word_name">단어</string>
     <string name="dict_add_button">단어 추가</string>
     <string name="menu_main_developer">개발자 옵션</string>
+    <string name="splash_button_activate_keyboard">키보드 활성화</string>
+    <string name="splash_button_select_keyboard">키보드 선택</string>
+    <string name="app_name">한국어 키보드</string>
+    <string name="splash_toast_enable_keyboard">한국어 키보드 앱을 활성화해주세요</string>
 </resources>

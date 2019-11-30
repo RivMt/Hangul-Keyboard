@@ -1,4 +1,4 @@
-package com.rivmt.kbd.hangulkeyboard;
+package com.rivmt.kbd.hangulkeyboard.ime;
 
 import android.util.Log;
 

@@ -1,4 +1,4 @@
-package com.rivmt.kbd.hangulkeyboard;
+package com.rivmt.kbd.hangulkeyboard.keyboard;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -11,7 +11,7 @@ import java.util.List;
 
 public class DictionaryDBHelper extends SQLiteOpenHelper {
 
-    static final String TAG = "DictionaryDBHelper";
+    private static final String TAG = "DictionaryDBHelper";
 
     public DictionaryDBHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);

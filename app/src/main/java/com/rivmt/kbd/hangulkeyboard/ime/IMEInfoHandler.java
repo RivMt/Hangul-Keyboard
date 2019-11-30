@@ -1,6 +1,4 @@
-package com.rivmt.kbd.hangulkeyboard;
-
-import java.util.regex.Pattern;
+package com.rivmt.kbd.hangulkeyboard.ime;
 
 public class IMEInfoHandler {
     public int mDeleteLetters=0;

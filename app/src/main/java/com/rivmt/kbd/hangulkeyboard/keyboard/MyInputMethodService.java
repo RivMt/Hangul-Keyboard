@@ -1,7 +1,6 @@
-package com.rivmt.kbd.hangulkeyboard;
+package com.rivmt.kbd.hangulkeyboard.keyboard;
 
 import android.content.Context;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -18,8 +17,12 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.rivmt.kbd.hangulkeyboard.Constants;
+import com.rivmt.kbd.hangulkeyboard.ime.IMEDanmoeum;
+import com.rivmt.kbd.hangulkeyboard.ime.IMEMaster;
+import com.rivmt.kbd.hangulkeyboard.R;
 
 import java.util.List;
 import java.util.regex.Pattern;
@@ -361,8 +364,12 @@ public class MyInputMethodService extends InputMethodService implements Keyboard
     }
 
     private void resetCandidateText() {
-        for (int i = 0; i < mCandText.length; i++) {
-            mCandText[i].setText("");
+        try {
+            for (int i = 0; i < mCandText.length; i++) {
+                mCandText[i].setText("");
+            }
+        } catch (NullPointerException e) {
+            Log.e("Sys","Unable to candidate text");
         }
     }
 }
