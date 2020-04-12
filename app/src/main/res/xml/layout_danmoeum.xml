@@ -54,6 +54,6 @@
         <Key android:codes="-3" android:keyIcon="@drawable/ic_language_black_24dp" android:keyWidth="10%p" />
         <Key android:codes="32" android:keyWidth="60%p" android:isRepeatable="true"/>
         <Key android:codes="46" android:keyLabel="." android:keyWidth="10%p"/>
-        <Key android:codes="-4" android:keyIcon="@drawable/ic_done_black_24dp" android:keyWidth="20%p" android:keyEdgeFlags="right"/>
+        <Key android:codes="-4" android:keyIcon="@drawable/ic_check_white_24dp" android:keyWidth="20%p" android:keyEdgeFlags="right"/>
     </Row>
 </Keyboard>

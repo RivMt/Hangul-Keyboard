@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Hangul-Keyboard.iml" filepath="$PROJECT_DIR$/Hangul-Keyboard.iml" group="Hangul-Keyboard" />
+      <module fileurl="file://$PROJECT_DIR$/app/Hangul-Keyboard-app.iml" filepath="$PROJECT_DIR$/app/Hangul-Keyboard-app.iml" group="Hangul-Keyboard/app" />
       <module fileurl="file://$PROJECT_DIR$/Hangul_Keyboard.iml" filepath="$PROJECT_DIR$/Hangul_Keyboard.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
